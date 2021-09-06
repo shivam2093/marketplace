@@ -22,9 +22,7 @@ const Login = () => {
     const { password, setPassword } = useContext(Authcontext);
     const { state, dispatch } = useContext(Authcontext);
     const { mydata, setMyData } = useContext(Authcontext);
-    // const [imageUrl, setImageUrl] = useState('');
-   
-   // const { register } = useContext(Authcontext);
+  
  
    const login = (data) => {
 
@@ -41,7 +39,7 @@ const Login = () => {
             })
         }).then(res => res.json())
             .then(async data => {
-               console.log("check match",data.token)
+              // console.log("check match",data.token)
                const puthere = data.token
                 if (data.error) {
                     ToastAndroid.show(data.error, ToastAndroid.CENTER);
@@ -192,7 +190,8 @@ const styles = StyleSheet.create({
         color:'#fff'
     },
     label1:{
-        color:'#fff'
+        color:'#fff',
+        borderWidth:0.5
     }
 
 })

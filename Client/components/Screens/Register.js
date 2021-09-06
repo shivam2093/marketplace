@@ -143,7 +143,7 @@ const Register = ({ navigation }) => {
             <View style={styles.inputContainer}>
             <View>
             <Text style={styles.label}> Profile Picture </Text>
-                <Avatar rounded source={{ uri:`${url}`}} size="large" containerStyle={{right:20, borderColor:'black',borderStyle:'solid', borderWidth:2}} />
+                <Avatar  source={{ uri:`${url}`}} size="xlarge" containerStyle={{right:20, borderColor:'black',borderStyle:'solid', borderWidth:1, borderRadius:3}} />
                 </View>
                 <View>
                     <Text style={styles.label}> Name </Text>
@@ -160,7 +160,7 @@ const Register = ({ navigation }) => {
                        placeholder="Name"
                        value={value}
                        onChangeText = {(value) => onChange(value)}
-                     
+                       style={styles.label1}
                        />
                        
                     )}
@@ -183,6 +183,7 @@ const Register = ({ navigation }) => {
                     
                        placeholder="Email"
                        value={value}
+                       style={styles.label1}
                       
                        /> 
                     }
@@ -206,6 +207,7 @@ const Register = ({ navigation }) => {
                     onChangeText = {(value) => onChange(value)}                  
                        placeholder="Password"
                        value={value}
+                       style={styles.label1}
                     
                        /> 
                        )}
@@ -286,7 +288,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 5,
         backgroundColor:"#fff",
-        marginTop:5
+        marginTop:90
         
     },
     inputContainer: {
@@ -295,11 +297,14 @@ const styles = StyleSheet.create({
         
     },
     label: {
-    color:'black'
+    color:'black',
+    marginTop:1
     },
     input :{
         marginBottom: 20,
         backgroundColor:'black',
         borderRadius:5
+    },label1:{
+        borderWidth:0.5
     }
 })

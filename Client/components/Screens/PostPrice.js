@@ -6,9 +6,14 @@ import { ToastAndroid } from 'react-native'
 import * as SecureStore from 'expo-secure-store';
 import { handleUpload } from './Post'
 import { sub } from 'react-native-reanimated';
+import { useForm, Controller } from 'react-hook-form'
+import Input from '../Input/Input'
 
-const PostPrice = ({ navigation }) => {
+const PostPrice = ({ navigation , route}) => {
    
+
+    const {control,register ,handleSubmit, formState:{errors} } = useForm();
+
     const { img, setImg } = useContext(Authcontext);
     const { title, setTitle } = useContext(Authcontext);
     const { category, setCategory } = useContext(Authcontext);
@@ -16,13 +21,20 @@ const PostPrice = ({ navigation }) => {
     const {description, setDescription } = useContext(Authcontext);
     const { price, setPrice } = useContext(Authcontext);
     const { url, setUrl } = useContext(Authcontext);
-
+    const [here, setHere] = useState('');
     
   //  useEffect(() => {
         
-        const sub = async () => {
+        const sub = async (datas) => {
 
-            if (url && price) {
+       // console.log('data',datas.Title)
+            let {data} = route.params;
+            
+            setHere(data);
+
+             console.log('here', here.Title)
+            if (url && datas.Price && here.Description && here.Title) {
+
                 const token = await SecureStore.getItemAsync("jwt")
             
                 fetch('http://192.168.0.43:3000/detail', {
@@ -33,16 +45,16 @@ const PostPrice = ({ navigation }) => {
                     },
                     body: JSON.stringify({
                          pic: url,
-                        "title": title,
+                        "title": here.Title,
                         "category": category,
                         "condition": condition,
-                        "description": description,
-                        "price":  price,
+                        "description": here.Description,
+                        "price":  datas.Price,
                     })
                 }).then((res) => {
                     res.json().then( data => {
                         if (data.error) {
-                            //console.log(data.error)
+                            console.log(data.error)
                             ToastAndroid.show(data.error, 10)
                         }
                         else {
@@ -56,14 +68,6 @@ const PostPrice = ({ navigation }) => {
                 })
             }
         }
-
-    //   return () => 
-   // sub();
-    
-        
-  //  }, [url])
-    
-
 
     const submitData =  () => {
 
@@ -92,10 +96,37 @@ const PostPrice = ({ navigation }) => {
         <View style={styles.main}>
             <Text style={{color:'green', left:350, marginTop:10}}  onPress={ () => navigation.navigate('Home')}>Cancel </Text>
             <View style={styles.price}> 
-           <TextInput value={price} onChangeText={value => setPrice(value)} style={{ width:150,fontSize:30, height:50,borderWidth:1, borderRadius:3, textAlign:'center'}} placeholder="$0"/>
+            
+            <View>
+                    
+                    <Controller
+                    defaultValue=""
+                    name="Price"                    
+                    control={control}
+                    rules={{required: {value: true , message:'Price field required'},pattern:{}}}
+                    
+                    render={({ field: {onChange, value}}) =>
+                       <Input
+                       error={errors.Price}
+                       errorText = {errors?.Price?.message}
+                       onChangeText = {(value) => onChange(value)}                  
+                       style={styles.label1}
+                       placeholder="$"
+
+                    placeholderTextColor='grey'
+                       value={value}
+                      
+                       /> 
+                    }
+                 />
+                
+                </View>   
+            
+           {/* <TextInput value={price} onChangeText={value => setPrice(value)} style={{ width:150,fontSize:30, height:50,borderWidth:1, borderRadius:3, textAlign:'center'}} placeholder="$0"/>
+            */}
             </View>
            <View style={styles.button}>
-                <Button color='green' title="Submit" onPress={sub}/>
+                <Button color='green' title="Submit" onPress={ handleSubmit(sub)}/>
            </View>
             </View>
     )
@@ -125,6 +156,16 @@ const styles = StyleSheet.create({
     button: {
         marginTop: 460,
         
+        
+    },
+    label1:{
+        width:150,
+        fontSize:30,
+         height:50,
+         borderWidth:1,
+          borderRadius:3,
+           textAlign:'center'
     }
+
 
 })

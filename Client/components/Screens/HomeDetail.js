@@ -23,7 +23,7 @@ const HomeDetail = ({ route, navigation}) => {
              let {item } = route.params;
             setHere(item)
 
-           // console.log("home detail", here._id)
+          //  console.log("home detail", here.postedby.name)
         }, [])
 
        

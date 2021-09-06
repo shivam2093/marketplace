@@ -2,13 +2,13 @@ import React,{useState,useContext} from 'react'
 import { StyleSheet, View,KeyboardAvoidingView } from 'react-native'
 import {Button } from 'react-native-paper'
 
-import {  Input, Text,  } from 'react-native-elements'
+import {   Text } from 'react-native-elements'
 import { TextInput, ToastAndroid, Alert } from 'react-native'
 import { Authcontext } from '../../Navigator/Provider';
 import * as ImagePicker from 'expo-image-picker'
 import * as Permissions from 'expo-permissions'
+import { Avatar } from 'react-native-elements'
 
-  
 const Post = ({ navigation }) => {
     
     const { img, setImg } = useContext(Authcontext);
@@ -22,6 +22,7 @@ const Post = ({ navigation }) => {
              if (granted) {
                let data =  await ImagePicker.launchImageLibraryAsync({
                      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                     allowsMultipleSelection:true,
                      allowsEditing: true,
                      aspect: [1, 1],
                      quality:0.5
@@ -93,13 +94,16 @@ const Post = ({ navigation }) => {
     
    
    
-    const textInput = () => {
+    const textInput = (data) => {
+
+        //console.log('data',data.Title)
+
         //  if (!title.trim()) {
         //      ToastAndroid.show('add fields', ToastAndroid.CENTER);
             
         // }
         
-        !title.trim() ? ToastAndroid.show('add fields', ToastAndroid.CENTER)  : navigation.navigate('PostInfo');
+       navigation.navigate('PostInfo',{data});
         //  else {
         //      navigation.navigate('PostInfo');
         // }
@@ -107,20 +111,32 @@ const Post = ({ navigation }) => {
   
        return (
            <View behavior='padding' style={styles.container}>
+
                <Text style={{color:'green', left:170}}  onPress={ () => navigation.navigate('Home')}>Cancel </Text>
+             
+               { 
+               (() => {
+                   if(!img) {
+                  return <Avatar  source={{ uri:`${url}`}} size="xlarge" containerStyle={{right:20,}} />
+                 
+                } else {
+                        return <Text>Nothing</Text>
+                   }
+               })
+               ()}
+               
                <View style={styles.button}>
                 
-                   <Button icon={img==" "? "upload":"check"} mode="contained" onPress={()=> pickFromCamera()}>Take Picture</Button>
-                   <Button icon={img== " "? "upload":"check"} mode="text"   onPress={()=>pickFromGallery()}  >Upload photo</Button>
+                   <Button icon={img == "" ? 'upload' : 'check' }    mode="contained" onPress={()=> pickFromCamera()}>Take Picture</Button>
+                   
+                   <Button icon={img == "" ? 'upload' : 'check' } mode="text"   onPress={()=>pickFromGallery()}  >Upload photo</Button>
+                   
                    </View>
                <View style={styles.text}>
-                
-
-               <TextInput value={title} onChangeText={value => setTitle(value)} style={{borderColor:'black', width:400,borderWidth:2, borderRadius:5, fontSize:20}} placeholder='Title'/>
-                <Text>For example: Brand,model,color, and size.</Text>
+               
                </View>
                <View style={styles.bottomButton}>
-                   <Button color='green'  onPress={textInput}  >Next</Button>
+                   <Button color='green'  onPress={ textInput}  >Next</Button>
                    </View>
                </View>
        )
@@ -153,11 +169,13 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         
         width: '100%',
-        marginTop: 30,
+        marginTop: '50%',
+        
         padding: 10, 
         
     },
     bottomButton: {
         width: '100%'
-    }
+    },
+    
 })
