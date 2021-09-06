@@ -261,43 +261,7 @@ const Register = ({ navigation }) => {
 
 
 
-                {/* <Hoshi 
-                borderColor='#e74c3c'
-                label="Name"
-                   style={{marginBottom:20, borderColor:'#e74c3c'}}
-                    autoFocus
-                    type="text"
-                    value={name}
-                    onChangeText={(text) => setName(text)} />
-                <Hoshi label="Email"
-                  style={{marginBottom:20}}
-                    type="text"
-                    value={email}
-                    onChangeText={(text) => setEmail(text)} />
-                    {
-                        (email.length == 0)
-                    }
-                 <Hoshi label="Password" secureTextEntry type="text"
-                    value={password}
-                    style={{marginBottom:20}}
-        
-                    onChangeText={(text) => setPassword(text)} />
-                    {
-                     (/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8}$/.test(password)) 
-                      ?
-                     <AntDesign name={'check'} size={20}/>
-                    : <Text></Text>
-
-                    }
-                  
-                    <Hoshi label="Propicture" type="text"
-                    value={url}
-                    style={{marginBottom:20}}
-                    onChangeText={text => setUrl(text)}
-                    />
-                     {
-                (!name || !email || !password) ? <Text style={{fontWeight:'bold'}}>add all fields</Text> : <Text></Text>
-                     } */}
+                
                 <Button  style={{marginTop:20}} mode="contained" onPress={() => pickFromCamera()} >Upload from camera</Button>
                 <Button  style={{marginTop:20}}mode="outlined" onPress={() => pickFromGallery()}>Upload from Gallery</Button>
                 
