@@ -12,6 +12,7 @@ npm-debug.*
 web-build/
 
 server/nodemon.json
+server/serviceAccount.json
 
 # macOS
 .DS_Store
